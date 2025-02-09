@@ -1,0 +1,13 @@
+def counting(actual_counting):
+    dictionary = {}
+    for char in actual_counting:
+        if char in dictionary:
+            dictionary[char] += 1
+        else:
+            dictionary[char] = 1
+    return dictionary
+
+# Example usage:
+actual_counting = "hello"
+output = counting(actual_counting)
+print(output)
