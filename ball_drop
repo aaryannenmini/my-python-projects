@@ -1,0 +1,77 @@
+import pygame
+import random
+
+pygame.init()
+width=800
+height=600
+screen_color=(255,255,255)
+screen=pygame.display.set_mode((width,height))
+pygame.display.set_caption("Game")
+
+#paddle variable
+padc=(0,20,168)
+padw=100
+padh=20
+padx=(width-padw)//2
+pady=(height-padh)-20
+pads=20
+
+#ball variables\
+running=True
+clock=pygame.time.Clock()
+br=15
+#ball  raduis
+bs=10#ball speed
+bx=random.randint(br,width-br)
+by=-br
+bc=(0,255,0)
+bcount=0
+
+
+#score
+s=0
+f_equal_font=pygame.font.SysFont("Hobo",50)
+tc=(0,0,0)
+while running:
+    for event in pygame.event.get():
+        if event.type==pygame.QUIT:
+            running = False
+
+    key=pygame.key.get_pressed()
+
+    if key[pygame.K_d] and padx < width-padw:
+        padx += pads
+    if key[pygame.K_a] and padx>0:
+        padx -= pads
+
+    #fal
+    by +=bs
+    #bott ed
+    if by > height:
+        bx=random.randint(br,width-br)
+        by=-br
+        bcount+=1
+
+    # ball being ball
+    if(padx < bx < padx + padw) and (pady < by + br < pady  + padh):
+        s+=10
+        bx=random.randint(br,width-br)
+        by=-br
+        bcount+=1
+
+    #fill screnen color
+    screen.fill(screen_color)
+    #draw
+    pygame.draw.rect(screen,padc,(padx,pady,padw,padh))
+    pygame.draw.circle(screen,bc,(bx,by),br)
+    #score
+    score_t=f_equal_font.render(f"Score:{s}",True,tc)
+    screen.blit(score_t,(10,10))
+    #bcount
+    btext=f_equal_font.render(f"Ball:{bcount}",True,tc)
+    screen.blit(btext,(600,10))
+    pygame.display.update()
+    clock.tick(120)
+
+    
+pygame.quit()
